@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "vector3.hpp"
+#include "ray.hpp"
+#include "camera.hpp"
 
 #include "TinyPngOut.hpp" // For writing png files.
 
@@ -63,24 +65,39 @@ bool output_png_image(std::string const &filename, Film const &image) {
     return true;
 }
 
-int main() {
+// Color function
+Vector3 scene_color(Ray const& r) {
+    Vector3 unit_direction = unit_vector(r.direction());
+    float t = 0.5f * (unit_direction.y() + 1.0f);
+    return (1.0f - t) * Vector3(1, 1, 1) + t * Vector3(0.45f, 0.65f, 1.0f);
+}
+
+int main()
+{
+    // Image parameters
     unsigned const nx = 200;
     unsigned const ny = 100;
     Film output;
+    // Camera parameters
+    Vector3 origin(0, 0, 0);
+    Vector3 lookat(4, 0, 0);
+    Vector3 up(0, 1, 0);
+    Camera cam(origin, lookat, up, 90, float(nx) / float(ny));
+
     resize_film(output, nx, ny);
     for (int j = ny - 1; j >= 0; --j) {
         for (int i = 0; i < nx; ++i) {
-            auto r = float(i) / float(nx);
-            auto g = float(j) / float(ny);
-            auto b = 0.2f;
-            output[j][i] = Vector3(r, g, b);
+            auto u = float(i) / float(nx);
+            auto v = float(j) / float(ny);
+            auto col = scene_color(cam.get_ray(u, v));
+            output[j][i] = col;
         }
     }
     // Write image files
-    if (!output_ppm_image("hello.ppm", output)) {
+    if (!output_ppm_image("camera.ppm", output)) {
         return 1;
     }
-    if (!output_png_image("hello.png", output)) {
+    if (!output_png_image("camera.png", output)) {
         return 1;
     }
     return 0;
