@@ -1,0 +1,5 @@
+D:/Code/Other/workshops/tracing_rays_in_3d_space/work/CMakeFiles/ALL_BUILD.dir
+D:/Code/Other/workshops/tracing_rays_in_3d_space/work/CMakeFiles/ZERO_CHECK.dir
+D:/Code/Other/workshops/tracing_rays_in_3d_space/work/external/CMakeFiles/tiny_png_out.dir
+D:/Code/Other/workshops/tracing_rays_in_3d_space/work/external/CMakeFiles/tiny_png_simple_example.dir
+D:/Code/Other/workshops/tracing_rays_in_3d_space/work/source/CMakeFiles/renderer.dir

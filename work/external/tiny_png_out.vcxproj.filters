@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp\TinyPngOut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp\TinyPngOut.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Code\Other\workshops\tracing_rays_in_3d_space\external\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D3242BB9-428A-347C-8E1F-77986FF9333B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{FCF4072A-7B09-357B-84C6-AF67B21E2A85}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
