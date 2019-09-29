@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -105,10 +105,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -131,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -150,10 +150,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -176,7 +176,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -195,10 +195,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -221,7 +221,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -239,10 +239,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Code\Other\workshops\tracing_rays_in_3d_space\source\mathy;D:\Code\Other\workshops\tracing_rays_in_3d_space\source\tracey;D:\Code\Other\workshops\tracing_rays_in_3d_space\external\TinyPngOut-cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
