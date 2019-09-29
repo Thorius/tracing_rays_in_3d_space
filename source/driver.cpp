@@ -1,13 +1,18 @@
 #include <algorithm>
+#include <cmath>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector>
 
 #include "camera.hpp"
 #include "composite.hpp"
 #include "hittable.hpp"
-#include "ray.hpp"
+#include "lambertian.hpp"
+#include "material.hpp"
+#include "metal.hpp"
+#include "sampling.hpp"
 #include "sphere.hpp"
 #include "vector3.hpp"
 
@@ -68,50 +73,107 @@ bool output_png_image(std::string const &filename, Film const &image) {
     return true;
 }
 
-// Color function
-Color scene_color(Ray const &r, Hittable & world) {
+/// Maximum reflection depth.
+constexpr int const max_depth = 30;
+
+// Color function, which given a ray and an "world" returns the color which
+// would be seen by the given ray.
+Vector3 scene_color(Ray const &r, Hittable &world, int depth) {
     HitRecord record;
-    if (world.hit(r, 0.0f, std::numeric_limits<float>::max(), record)) {
-        return 0.5f*Vector3(record.normal.x()+1, record.normal.y()+1, record.normal.z()+1);
+    if (world.hit(r, 0.001f, std::numeric_limits<float>::max(), record)) {
+        Ray scattered;
+        Vector3 attenuation;
+        Vector3 target =
+            record.p + record.normal + random_vector_in_unit_sphere();
+        if (depth < max_depth &&
+            record.material->scatter(r, record, attenuation, scattered)) {
+            return attenuation * scene_color(scattered, world, depth + 1);
+        } else {
+            return Vector3(0.0f, 0.0f, 0.0f);
+        }
     } else {
+        // Sky color
         Vector3 unit_direction = unit_vector(r.direction());
         float t = 0.5f * (unit_direction.y() + 1.0f);
-        return (1.0f - t) * Vector3(1, 1, 1) + t * Vector3(0.45, 0.65, 1.0);
+        return (1.0f - t) * Vector3(1.0f, 1.0f, 1.0f) +
+               t * Vector3(0.45f, 0.65f, 1.0f);
     }
 }
 
-int main() {
+// Gamma correction - a lot of image viewers assume that the output is gamma
+// corrected. For our purposes, just applying sqrt to each of the values is
+// sufficient.
+Vector3 gamma_correction(Vector3 const &color) {
+    return Vector3(std::sqrt(color.r()), std::sqrt(color.g()),
+                   std::sqrt(color.b()));
+}
+
+int main(int argc, const char *argv[]) {
     // Image parameters
-    unsigned const nx = 200;
-    unsigned const ny = 100;
+    int const nx = 900;
+    int const ny = 600;
+    int const ns = 50;
     Film output;
-    // Camera parameters
-    Vector3 origin(0, 0, 0);
-    Vector3 lookat(0, 0, 4);
-    Vector3 up(0, 1, 0);
-    Camera cam(origin, lookat, up, 90, float(nx) / float(ny));
     resize_film(output, nx, ny);
+    // Camera parameters
+    Vector3 origin(0, 0.5, 1);
+    Vector3 lookat(0, 0, -4);
+    Vector3 up(0, 1, 0);
+    Camera cam(origin, lookat, up, 100, float(nx) / float(ny));
     // Actual scene
     Composite world;
-    Sphere sphere_small(Vector3(0, 0, 2), 0.5);
-    Sphere sphere_large(Vector3(0, -100.5, 1), 100);
-    world.add_hittable(sphere_small);
-    world.add_hittable(sphere_large);
-
-    resize_film(output, nx, ny);
-    for (int j = ny - 1; j >= 0; --j) {
-        for (int i = 0; i < nx; ++i) {
-            auto u = float(i) / float(nx);
-            auto v = float(j) / float(ny);
-            auto col = scene_color(cam.get_ray(u, v), world);
-            output[j][i] = col;
+    Lambertian sphere_mat_1(Vector3(0.8f, 0.2f, 0.2f));
+    Sphere sphere_small_1(Vector3(0.0f, 0.0f, -1.0f), 0.5f, sphere_mat_1);
+    Metal sphere_mat_2(Vector3(0.7f, 0.8f, 0.2f));
+    Sphere sphere_small_2(Vector3(-1.1f, 0.0f, -1.0f), 0.5f, sphere_mat_2);
+    Metal sphere_mat_3(Vector3(0.7f, 0.7f, 0.9f));
+    Sphere sphere_small_3(Vector3(1.1f, 0.0f, -1.0f), 0.5f, sphere_mat_3);
+    Lambertian sphere_mat_4(Vector3(0.9f, 0.1f, 0.2f));
+    Sphere sphere_small_4(Vector3(3.1f, 2.0f, 4.0f), 0.5f, sphere_mat_4);
+    Lambertian sphere_large_mat_1(Vector3(0.8f, 0.9f, 0.1f));
+    Sphere sphere_large_1(Vector3(0.0f, -50.5f, 1.0f), 50.0f,
+                          sphere_large_mat_1);
+    Metal sphere_large_mat_2(Vector3(0.3f, 0.3f, 0.9f));
+    Sphere sphere_large_2(Vector3(5.0f, 26.5f, -7.0f), 25.0f,
+                          sphere_large_mat_2);
+    world.add_hittable(sphere_small_1);
+    world.add_hittable(sphere_small_2);
+    world.add_hittable(sphere_small_3);
+    world.add_hittable(sphere_small_4);
+    world.add_hittable(sphere_large_1);
+    world.add_hittable(sphere_large_2);
+    // Progress monitoring variables
+    int progressBarTick = 10;
+    int numProgressBarTicks = ny / progressBarTick;
+    std::cout << "Progress:\n|" << std::string(numProgressBarTicks, '=')
+              << "|\n|";
+    // Render loop
+    for (int j = ny - 1; j >= 0; --j) { // Iterate over each row in reverse
+        for (int i = 0; i < nx; ++i) {  //  Iterate over each column
+            // Color into which we will accumulate
+            Color accum(0, 0, 0);
+            for (int s = 0; s != ns;
+                 ++s) { // Take several random samples for the pixel
+                auto u = float(i + random_number()) / float(nx);
+                auto v = float(j + random_number()) / float(ny);
+                // For the given camera ray,
+                accum += scene_color(cam.get_ray(u, v), world, 0);
+            }
+            accum /= float(ns);
+            output[j][i] = gamma_correction(accum);
+        }
+        // Update progress
+        if (j % progressBarTick == 0) {
+            std::cout << '=';
         }
     }
+    // Tidy up progress monitoring output
+    std::cout << "|\n";
     // Write image files
-    if (!output_ppm_image("sphere.ppm", output)) {
+    if (!output_ppm_image("simple_scene_2.ppm", output)) {
         return 1;
-    }
-    if (!output_png_image("sphere.png", output)) {
+    };
+    if (!output_png_image("simple_scene_2.png", output)) {
         return 1;
     }
     return 0;
