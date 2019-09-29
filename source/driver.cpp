@@ -4,9 +4,12 @@
 #include <string>
 #include <vector>
 
-#include "vector3.hpp"
-#include "ray.hpp"
 #include "camera.hpp"
+#include "composite.hpp"
+#include "hittable.hpp"
+#include "ray.hpp"
+#include "sphere.hpp"
+#include "vector3.hpp"
 
 #include "TinyPngOut.hpp" // For writing png files.
 
@@ -66,38 +69,49 @@ bool output_png_image(std::string const &filename, Film const &image) {
 }
 
 // Color function
-Vector3 scene_color(Ray const& r) {
-    Vector3 unit_direction = unit_vector(r.direction());
-    float t = 0.5f * (unit_direction.y() + 1.0f);
-    return (1.0f - t) * Vector3(1, 1, 1) + t * Vector3(0.45f, 0.65f, 1.0f);
+Color scene_color(Ray const &r, Hittable & world) {
+    HitRecord record;
+    if (world.hit(r, 0.0f, std::numeric_limits<float>::max(), record)) {
+        return 0.5f*Vector3(record.normal.x()+1, record.normal.y()+1, record.normal.z()+1);
+    } else {
+        Vector3 unit_direction = unit_vector(r.direction());
+        float t = 0.5f * (unit_direction.y() + 1.0f);
+        return (1.0f - t) * Vector3(1, 1, 1) + t * Vector3(0.45, 0.65, 1.0);
+    }
 }
 
-int main()
-{
+int main() {
     // Image parameters
     unsigned const nx = 200;
     unsigned const ny = 100;
     Film output;
     // Camera parameters
     Vector3 origin(0, 0, 0);
-    Vector3 lookat(4, 0, 0);
+    Vector3 lookat(0, 0, 4);
     Vector3 up(0, 1, 0);
     Camera cam(origin, lookat, up, 90, float(nx) / float(ny));
+    resize_film(output, nx, ny);
+    // Actual scene
+    Composite world;
+    Sphere sphere_small(Vector3(0, 0, 2), 0.5);
+    Sphere sphere_large(Vector3(0, -100.5, 1), 100);
+    world.add_hittable(sphere_small);
+    world.add_hittable(sphere_large);
 
     resize_film(output, nx, ny);
     for (int j = ny - 1; j >= 0; --j) {
         for (int i = 0; i < nx; ++i) {
             auto u = float(i) / float(nx);
             auto v = float(j) / float(ny);
-            auto col = scene_color(cam.get_ray(u, v));
+            auto col = scene_color(cam.get_ray(u, v), world);
             output[j][i] = col;
         }
     }
     // Write image files
-    if (!output_ppm_image("camera.ppm", output)) {
+    if (!output_ppm_image("sphere.ppm", output)) {
         return 1;
     }
-    if (!output_png_image("camera.png", output)) {
+    if (!output_png_image("sphere.png", output)) {
         return 1;
     }
     return 0;
